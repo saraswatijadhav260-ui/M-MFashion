@@ -10,8 +10,13 @@ const Header = () => {
   const activeStyle =
     "bg-pink-500 text-white";
 
+  const categoryStyle =
+    "text-sm font-medium cursor-pointer hover:text-pink-600 transition";
+
   return (
     <header className="border-b sticky top-0 bg-white z-50 shadow-sm">
+
+      {/* ===== TOP NAVBAR ===== */}
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
         {/* Logo */}
@@ -42,9 +47,7 @@ const Header = () => {
             `${navLinkStyle} ${isActive ? activeStyle : ""}`
           }>My Orders</NavLink>
 
-          <NavLink to="/track-order" className={({ isActive }) =>
-            `${navLinkStyle} ${isActive ? activeStyle : ""}`
-          }>Track Order</NavLink>
+         
 
           <NavLink to="/upload-photos" className={({ isActive }) =>
             `${navLinkStyle} ${isActive ? activeStyle : ""}`
@@ -73,7 +76,47 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* ===== SEARCH BAR ===== */}
+      <div className="w-full flex justify-center py-4 bg-gray-50 border-t">
+        <input
+          type="text"
+          placeholder="Search by product, fabric, occasion..."
+          className="w-[90%] md:w-2/3 px-5 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 transition"
+        />
+      </div>
+
+      {/* ===== CATEGORY BAR (VISIBLE ON ALL PAGES) ===== */}
+      <div className="w-full bg-white border-t">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex justify-center gap-8 overflow-x-auto">
+
+          <Link to="/products?category=men" className={categoryStyle}>
+            Men
+          </Link>
+
+          <Link to="/products?category=women" className={categoryStyle}>
+            Women
+          </Link>
+
+          <Link to="/products?category=kids" className={categoryStyle}>
+            Kids
+          </Link>
+
+          <Link to="/products?category=ethnic" className={categoryStyle}>
+            Ethnic
+          </Link>
+
+          <Link to="/products?category=western" className={categoryStyle}>
+            Western
+          </Link>
+
+          <Link to="/products?category=party" className={categoryStyle}>
+            Party Wear
+          </Link>
+
+        </div>
+      </div>
+
+      {/* ===== MOBILE MENU ===== */}
       {isOpen && (
         <div className="md:hidden bg-white border-t px-6 py-4 space-y-2 text-sm">
 

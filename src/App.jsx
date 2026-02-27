@@ -43,7 +43,7 @@ function App() {
 
         {/* Orders */}
         <Route path="/my-orders" element={<MyOrdersPage />} />
-        <Route path="/track-order" element={<TrackOrderPage />} />
+        <Route path="/trackorder/:orderId" element={<TrackOrderPage />} />
 
         {/* Search */}
         <Route path="/search" element={<SearchResultsPage />} />
@@ -65,7 +65,14 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
 
         {/* 404 */}
-        <Route path="*" element={<h1 className="text-center mt-10 text-2xl">404 - Page Not Found</h1>} />
+        <Route
+          path="*"
+          element={
+            <h1 className="text-center mt-10 text-2xl">
+              404 - Page Not Found
+            </h1>
+          }
+        />
       </Routes>
 
       <Footer />
