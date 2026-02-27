@@ -6,6 +6,7 @@ import ProductListPage from "./pages/ProductListPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import PaymentPage from "./pages/PaymentPage"; // ✅ PaymentPage Route Added
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import TrackOrderPage from "./pages/TrackOrderPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
@@ -29,42 +30,44 @@ function App() {
       <Header />
 
       <Routes>
-        {/* Home */}
+
+        {/* ===== Home ===== */}
         <Route path="/" element={<HomePage />} />
 
-        {/* Products */}
+        {/* ===== Products ===== */}
         <Route path="/products" element={<ProductListPage />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
 
-        {/* Cart & Checkout */}
+        {/* ===== Cart & Checkout ===== */}
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/payment" element={<PaymentPage />} /> {/* ✅ Payment Page Route */}
         <Route path="/order-success" element={<OrderSuccessPage />} />
 
-        {/* Orders */}
+        {/* ===== Orders ===== */}
         <Route path="/my-orders" element={<MyOrdersPage />} />
         <Route path="/trackorder/:orderId" element={<TrackOrderPage />} />
 
-        {/* Search */}
+        {/* ===== Search ===== */}
         <Route path="/search" element={<SearchResultsPage />} />
 
-        {/* Wishlist */}
+        {/* ===== Wishlist ===== */}
         <Route path="/wishlist" element={<WishlistPage />} />
 
-        {/* Login */}
+        {/* ===== Login ===== */}
         <Route path="/login" element={<WhatsAppLoginPage />} />
 
-        {/* Upload */}
+        {/* ===== Upload ===== */}
         <Route path="/upload-photos" element={<UploadUserPhotosPage />} />
 
-        {/* Info Pages */}
+        {/* ===== Info Pages ===== */}
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/shipping-policy" element={<ShippingPolicyPage />} />
         <Route path="/return-refund" element={<ReturnRefundPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
 
-        {/* 404 */}
+        {/* ===== 404 ===== */}
         <Route
           path="*"
           element={
@@ -73,6 +76,7 @@ function App() {
             </h1>
           }
         />
+
       </Routes>
 
       <Footer />
