@@ -51,6 +51,8 @@ function App() {
 
         {/* ===== Products ===== */}
         <Route path="/products" element={<ProductListPage />} />
+
+        {/* ✅ Dynamic Product Detail Route */}
         <Route path="/product/:id" element={<ProductDetailPage />} />
 
         {/* ===== Cart & Checkout ===== */}
