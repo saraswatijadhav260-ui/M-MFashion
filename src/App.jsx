@@ -6,7 +6,7 @@ import ProductListPage from "./pages/ProductListPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
-import PaymentPage from "./pages/PaymentPage"; // ✅ PaymentPage Route Added
+import PaymentPage from "./pages/PaymentPage";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import TrackOrderPage from "./pages/TrackOrderPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
@@ -20,6 +20,14 @@ import ShippingPolicyPage from "./pages/ShippingPolicyPage";
 import ReturnRefundPage from "./pages/ReturnRefundPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 
+/* ===== NEW CATEGORY PAGES ===== */
+import MenPage from "./pages/MenPage";
+import WomenPage from "./pages/WomenPage";
+import KidsPage from "./pages/KidsPage";
+import EthnicPage from "./pages/EthnicPage";
+import WesternPage from "./pages/WesternPage";
+import PartyWearPage from "./pages/PartyWearPage";
+
 /* ===== Components ===== */
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -30,9 +38,16 @@ function App() {
       <Header />
 
       <Routes>
-
         {/* ===== Home ===== */}
         <Route path="/" element={<HomePage />} />
+
+        {/* ===== Category Pages ===== */}
+        <Route path="/men" element={<MenPage />} />
+        <Route path="/women" element={<WomenPage />} />
+        <Route path="/kids" element={<KidsPage />} />
+        <Route path="/ethnic" element={<EthnicPage />} />
+        <Route path="/western" element={<WesternPage />} />
+        <Route path="/party-wear" element={<PartyWearPage />} />
 
         {/* ===== Products ===== */}
         <Route path="/products" element={<ProductListPage />} />
@@ -41,7 +56,7 @@ function App() {
         {/* ===== Cart & Checkout ===== */}
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/payment" element={<PaymentPage />} /> {/* ✅ Payment Page Route */}
+        <Route path="/payment" element={<PaymentPage />} />
         <Route path="/order-success" element={<OrderSuccessPage />} />
 
         {/* ===== Orders ===== */}
@@ -76,7 +91,6 @@ function App() {
             </h1>
           }
         />
-
       </Routes>
 
       <Footer />

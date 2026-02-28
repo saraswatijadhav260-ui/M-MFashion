@@ -86,35 +86,35 @@ const Header = () => {
       </div>
 
       {/* ===== CATEGORY BAR (VISIBLE ON ALL PAGES) ===== */}
-      <div className="w-full bg-white border-t">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex justify-center gap-8 overflow-x-auto">
+   <div className="w-full bg-white border-t">
+  <div className="max-w-7xl mx-auto px-6 py-3 flex justify-center gap-8 overflow-x-auto">
 
-          <Link to="/products?category=men" className={categoryStyle}>
-            Men
-          </Link>
+    <Link to="/men" className={categoryStyle}>
+      Men
+    </Link>
 
-          <Link to="/products?category=women" className={categoryStyle}>
-            Women
-          </Link>
+    <Link to="/women" className={categoryStyle}>
+      Women
+    </Link>
 
-          <Link to="/products?category=kids" className={categoryStyle}>
-            Kids
-          </Link>
+    <Link to="/kids" className={categoryStyle}>
+      Kids
+    </Link>
 
-          <Link to="/products?category=ethnic" className={categoryStyle}>
-            Ethnic
-          </Link>
+    <Link to="/ethnic" className={categoryStyle}>
+      Ethnic
+    </Link>
 
-          <Link to="/products?category=western" className={categoryStyle}>
-            Western
-          </Link>
+    <Link to="/western" className={categoryStyle}>
+      Western
+    </Link>
 
-          <Link to="/products?category=party" className={categoryStyle}>
-            Party Wear
-          </Link>
+    <Link to="/party-wear" className={categoryStyle}>
+      Party Wear
+    </Link>
 
-        </div>
-      </div>
+  </div>
+</div>
 
       {/* ===== MOBILE MENU ===== */}
       {isOpen && (
