@@ -1,13 +1,12 @@
-const Filters = ({ onFilterChange }) => {
+const Filters = ({ onFilterChange, sizes = [], colors = [] }) => {
 
-  const sizes = ["S", "M", "L", "XL"];
-  const colors = ["Red", "Blue", "Green", "Yellow", "Pink"];
   const priceRanges = ["2000", "3000", "4000"];
 
   return (
     <div className="space-y-4">
       <h3 className="font-semibold">Filters</h3>
 
+      {/* Size */}
       <select
         className="w-full border p-2 rounded"
         onChange={(e) => onFilterChange("size", e.target.value)}
@@ -18,6 +17,7 @@ const Filters = ({ onFilterChange }) => {
         ))}
       </select>
 
+      {/* Color */}
       <select
         className="w-full border p-2 rounded"
         onChange={(e) => onFilterChange("color", e.target.value)}
@@ -28,6 +28,7 @@ const Filters = ({ onFilterChange }) => {
         ))}
       </select>
 
+      {/* Price */}
       <select
         className="w-full border p-2 rounded"
         onChange={(e) => onFilterChange("price", e.target.value)}
@@ -39,6 +40,7 @@ const Filters = ({ onFilterChange }) => {
           </option>
         ))}
       </select>
+
     </div>
   );
 };

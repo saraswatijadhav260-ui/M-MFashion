@@ -1,8 +1,10 @@
 import { Link, NavLink } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { WishlistContext } from "../context/WishlistContext";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { wishlist } = useContext(WishlistContext);
 
   const navLinkStyle =
     "block py-2 px-3 rounded hover:bg-pink-100 transition";
@@ -39,15 +41,24 @@ const Header = () => {
             `${navLinkStyle} ${isActive ? activeStyle : ""}`
           }>Cart</NavLink>
 
-          <NavLink to="/wishlist" className={({ isActive }) =>
-            `${navLinkStyle} ${isActive ? activeStyle : ""}`
-          }>Wishlist</NavLink>
+          {/* ❤️ Wishlist with Count */}
+          <NavLink
+            to="/wishlist"
+            className={({ isActive }) =>
+              `${navLinkStyle} ${isActive ? activeStyle : ""} relative`
+            }
+          >
+            Wishlist
+            {wishlist.length > 0 && (
+              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                {wishlist.length}
+              </span>
+            )}
+          </NavLink>
 
           <NavLink to="/my-orders" className={({ isActive }) =>
             `${navLinkStyle} ${isActive ? activeStyle : ""}`
           }>My Orders</NavLink>
-
-         
 
           <NavLink to="/upload-photos" className={({ isActive }) =>
             `${navLinkStyle} ${isActive ? activeStyle : ""}`
@@ -85,36 +96,19 @@ const Header = () => {
         />
       </div>
 
-      {/* ===== CATEGORY BAR (VISIBLE ON ALL PAGES) ===== */}
-   <div className="w-full bg-white border-t">
-  <div className="max-w-7xl mx-auto px-6 py-3 flex justify-center gap-8 overflow-x-auto">
+      {/* ===== CATEGORY BAR ===== */}
+      <div className="w-full bg-white border-t">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex justify-center gap-8 overflow-x-auto">
 
-    <Link to="/men" className={categoryStyle}>
-      Men
-    </Link>
+          <Link to="/men" className={categoryStyle}>Men</Link>
+          <Link to="/women" className={categoryStyle}>Women</Link>
+          <Link to="/kids" className={categoryStyle}>Kids</Link>
+          <Link to="/ethnic" className={categoryStyle}>Ethnic</Link>
+          <Link to="/western" className={categoryStyle}>Western</Link>
+          <Link to="/party-wear" className={categoryStyle}>Party Wear</Link>
 
-    <Link to="/women" className={categoryStyle}>
-      Women
-    </Link>
-
-    <Link to="/kids" className={categoryStyle}>
-      Kids
-    </Link>
-
-    <Link to="/ethnic" className={categoryStyle}>
-      Ethnic
-    </Link>
-
-    <Link to="/western" className={categoryStyle}>
-      Western
-    </Link>
-
-    <Link to="/party-wear" className={categoryStyle}>
-      Party Wear
-    </Link>
-
-  </div>
-</div>
+        </div>
+      </div>
 
       {/* ===== MOBILE MENU ===== */}
       {isOpen && (
@@ -123,7 +117,21 @@ const Header = () => {
           <NavLink to="/" onClick={() => setIsOpen(false)} className={navLinkStyle}>Home</NavLink>
           <NavLink to="/products" onClick={() => setIsOpen(false)} className={navLinkStyle}>Products</NavLink>
           <NavLink to="/cart" onClick={() => setIsOpen(false)} className={navLinkStyle}>Cart</NavLink>
-          <NavLink to="/wishlist" onClick={() => setIsOpen(false)} className={navLinkStyle}>Wishlist</NavLink>
+
+          {/* ❤️ Mobile Wishlist with Count */}
+          <NavLink
+            to="/wishlist"
+            onClick={() => setIsOpen(false)}
+            className="relative block py-2 px-3 rounded hover:bg-pink-100 transition"
+          >
+            Wishlist
+            {wishlist.length > 0 && (
+              <span className="ml-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                {wishlist.length}
+              </span>
+            )}
+          </NavLink>
+
           <NavLink to="/my-orders" onClick={() => setIsOpen(false)} className={navLinkStyle}>My Orders</NavLink>
           <NavLink to="/track-order" onClick={() => setIsOpen(false)} className={navLinkStyle}>Track Order</NavLink>
           <NavLink to="/upload-photos" onClick={() => setIsOpen(false)} className={navLinkStyle}>Upload Photos</NavLink>

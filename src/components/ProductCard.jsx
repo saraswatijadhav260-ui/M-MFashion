@@ -1,15 +1,22 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { WishlistContext } from "../context/WishlistContext";
 
 const ProductCard = ({ product }) => {
-  const [liked, setLiked] = useState(false);
+  const { wishlist, addToWishlist, removeFromWishlist } =
+    useContext(WishlistContext);
+
   const [showMessage, setShowMessage] = useState(false);
 
-  const handleLike = () => {
-    setLiked(!liked);
+  // Check if already liked
+  const isLiked = wishlist.some((item) => item.id === product.id);
 
-    if (!liked) {
+  const handleLike = () => {
+    if (isLiked) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
       setShowMessage(true);
 
       setTimeout(() => {
@@ -27,7 +34,7 @@ const ProductCard = ({ product }) => {
           onClick={handleLike}
           className="absolute top-3 right-3 bg-white p-2 rounded-full shadow"
         >
-          {liked ? (
+          {isLiked ? (
             <FaHeart className="text-red-500 text-lg" />
           ) : (
             <FaRegHeart className="text-gray-400 text-lg" />
@@ -47,15 +54,15 @@ const ProductCard = ({ product }) => {
           )}
         </div>
 
-        {/* Dynamic Name */}
+        {/* Product Name */}
         <h3 className="font-semibold">{product.name}</h3>
 
-        {/* Dynamic Price */}
+        {/* Product Price */}
         <p className="text-pink-600 font-bold">
           ₹{product.price}
         </p>
 
-        {/* Dynamic Link */}
+        {/* View Link */}
         <Link
           to={`/product/${product.id}`}
           className="block text-center mt-3 bg-pink-600 text-white py-2 rounded"
@@ -64,7 +71,7 @@ const ProductCard = ({ product }) => {
         </Link>
       </div>
 
-      {/* Wishlist Popup Message */}
+      {/* Popup Message */}
       {showMessage && (
         <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded shadow-lg">
           {product.name} saved in your Wishlist ❤️

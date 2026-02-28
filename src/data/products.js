@@ -44,7 +44,9 @@ const products = [
     category: "men",
     price: 1999,
     image: menkurta,
-    description: "Premium cotton festive kurta"
+    description: "Premium cotton festive kurta",
+    size: ["M", "L", "XL"],
+    color: ["White", "Blue"]
   },
   {
     id: 2,
@@ -52,7 +54,9 @@ const products = [
     category: "men",
     price: 2999,
     image: jacket,
-    description: "Winter collection jacket"
+    description: "Winter collection jacket",
+    size: ["L", "XL"],
+    color: ["Black", "Brown"]
   },
   {
     id: 3,
@@ -60,7 +64,9 @@ const products = [
     category: "men",
     price: 1499,
     image: shirt,
-    description: "Slim fit formal shirt"
+    description: "Slim fit formal shirt",
+    size: ["S", "M", "L"],
+    color: ["Blue", "White"]
   },
   {
     id: 4,
@@ -68,7 +74,9 @@ const products = [
     category: "men",
     price: 999,
     image: tshirt,
-    description: "Comfort everyday wear"
+    description: "Comfort everyday wear",
+    size: ["S", "M", "L", "XL"],
+    color: ["Red", "Green", "Blue"]
   },
   {
     id: 5,
@@ -76,7 +84,9 @@ const products = [
     category: "men",
     price: 3499,
     image: mensoutfit,
-    description: "Complete festive outfit"
+    description: "Complete festive outfit",
+    size: ["M", "L"],
+    color: ["Cream", "Gold"]
   },
 
   // ===== WOMEN =====
@@ -86,7 +96,9 @@ const products = [
     category: "women",
     price: 4999,
     image: saree,
-    description: "Premium silk saree"
+    description: "Premium silk saree",
+    size: ["S", "M", "L"],
+    color: ["Red", "Green"]
   },
   {
     id: 7,
@@ -94,7 +106,9 @@ const products = [
     category: "women",
     price: 6999,
     image: lehenga,
-    description: "Wedding special lehenga"
+    description: "Wedding special lehenga",
+    size: ["M", "L"],
+    color: ["Pink", "Maroon"]
   },
   {
     id: 8,
@@ -102,17 +116,21 @@ const products = [
     category: "women",
     price: 1799,
     image: womenkurti,
-    description: "Comfort daily wear kurti"
+    description: "Comfort daily wear kurti",
+    size: ["S", "M", "L"],
+    color: ["Yellow", "Blue"]
   },
 
-  // ===== PARTY WEAR =====
+  // ===== PARTY =====
   {
     id: 9,
     name: "Elegant Party Gown",
     category: "party",
     price: 5599,
     image: gawn,
-    description: "Premium party wear gown"
+    description: "Premium party wear gown",
+    size: ["S", "M", "L"],
+    color: ["Black", "Red"]
   },
   {
     id: 10,
@@ -120,7 +138,9 @@ const products = [
     category: "party",
     price: 2299,
     image: shortdreass,
-    description: "Trendy short dress"
+    description: "Trendy short dress",
+    size: ["S", "M"],
+    color: ["Pink", "Blue"]
   },
   {
     id: 11,
@@ -128,7 +148,9 @@ const products = [
     category: "party",
     price: 2599,
     image: western1,
-    description: "Stylish modern party wear"
+    description: "Stylish modern party wear",
+    size: ["M", "L"],
+    color: ["Green", "Black"]
   },
   {
     id: 12,
@@ -136,7 +158,9 @@ const products = [
     category: "party",
     price: 2799,
     image: western2,
-    description: "Elegant evening outfit"
+    description: "Elegant evening outfit",
+    size: ["S", "L"],
+    color: ["Purple", "Blue"]
   },
   {
     id: 13,
@@ -144,7 +168,9 @@ const products = [
     category: "party",
     price: 2999,
     image: western3,
-    description: "Premium night wear collection"
+    description: "Premium night wear collection",
+    size: ["M", "XL"],
+    color: ["Black"]
   },
 
   // ===== KIDS =====
@@ -154,7 +180,9 @@ const products = [
     category: "kids",
     price: 1899,
     image: kidslehenga,
-    description: "Cute festive lehenga"
+    description: "Cute festive lehenga",
+    size: ["S", "M"],
+    color: ["Pink", "Yellow"]
   },
   {
     id: 15,
@@ -162,7 +190,9 @@ const products = [
     category: "kids",
     price: 1599,
     image: kidsoutfit,
-    description: "Comfortable festive wear"
+    description: "Comfortable festive wear",
+    size: ["S", "M"],
+    color: ["Blue", "Green"]
   },
 
   // ===== ETHNIC =====
@@ -172,7 +202,9 @@ const products = [
     category: "ethnic",
     price: 3499,
     image: ethnic1,
-    description: "Traditional ethnic style"
+    description: "Traditional ethnic style",
+    size: ["M", "L"],
+    color: ["Cream", "Gold"]
   },
   {
     id: 17,
@@ -180,7 +212,9 @@ const products = [
     category: "ethnic",
     price: 3799,
     image: ethnic2,
-    description: "Festival special ethnic"
+    description: "Festival special ethnic",
+    size: ["M", "L"],
+    color: ["Red", "Orange"]
   },
   {
     id: 18,
@@ -188,7 +222,9 @@ const products = [
     category: "ethnic",
     price: 3999,
     image: ethnic3,
-    description: "Premium festive wear"
+    description: "Premium festive wear",
+    size: ["L", "XL"],
+    color: ["Green", "Maroon"]
   },
   {
     id: 19,
@@ -196,49 +232,51 @@ const products = [
     category: "ethnic",
     price: 4299,
     image: ethnic4,
-    description: "Designer traditional wear"
+    description: "Designer traditional wear",
+    size: ["M", "XL"],
+    color: ["Purple", "Gold"]
   },
 
-
-    // ===== WESTERN =====
- {
-  id: 20,
-  name: "Western Maxi Dress",
-  category: "western",
-  price: 2899,
-  image: w1,
-  description: "Elegant maxi dress for outings",
-  size: ["S", "M", "L"],
-  color: "Red"
-},
-{
-  id: 21,
-  name: "Stylish Western Top",
-  category: "western",
-  price: 1899,
-  image: w2,
-  description: "Trendy casual top",
-  size: ["M", "L"],
-  color: "Black"
-},
-{
-  id: 22,
-  name: "Modern Street Outfit",
-  category: "western",
-  price: 2599,
-  image: w3,
-  description: "Chic everyday fashion",
-  size: ["S", "M"],
-  color: "Blue"
-},
+  // ===== WESTERN =====
+  {
+    id: 20,
+    name: "Western Maxi Dress",
+    category: "western",
+    price: 2899,
+    image: w1,
+    description: "Elegant maxi dress for outings",
+    size: ["S", "M", "L"],
+    color: ["Red"]
+  },
+  {
+    id: 21,
+    name: "Stylish Western Top",
+    category: "western",
+    price: 1899,
+    image: w2,
+    description: "Trendy casual top",
+    size: ["M", "L"],
+    color: ["Black"]
+  },
+  {
+    id: 22,
+    name: "Modern Street Outfit",
+    category: "western",
+    price: 2599,
+    image: w3,
+    description: "Chic everyday fashion",
+    size: ["S", "M"],
+    color: ["Blue"]
+  },
   {
     id: 23,
     name: "Denim Fashion Look",
     category: "western",
     price: 2199,
     image: w4,
-    description: "Classic denim style"
-    
+    description: "Classic denim style",
+    size: ["S", "M", "L"],
+    color: ["Blue"]
   },
   {
     id: 24,
@@ -246,7 +284,9 @@ const products = [
     category: "western",
     price: 1999,
     image: w5,
-    description: "Cute western combo set"
+    description: "Cute western combo set",
+    size: ["S", "M"],
+    color: ["Pink"]
   },
   {
     id: 25,
@@ -254,7 +294,9 @@ const products = [
     category: "western",
     price: 1799,
     image: w6,
-    description: "Light and fresh summer wear"
+    description: "Light and fresh summer wear",
+    size: ["S", "M", "L"],
+    color: ["Yellow"]
   }
 
 ];
