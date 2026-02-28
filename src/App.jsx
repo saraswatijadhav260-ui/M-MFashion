@@ -6,7 +6,7 @@ import ProductListPage from "./pages/ProductListPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
-import PaymentPage from "./pages/PaymentPage"; // ✅ PaymentPage Route Added
+import PaymentPage from "./pages/PaymentPage";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import TrackOrderPage from "./pages/TrackOrderPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
@@ -36,12 +36,14 @@ function App() {
 
         {/* ===== Products ===== */}
         <Route path="/products" element={<ProductListPage />} />
+
+        {/* ✅ Dynamic Product Detail Route */}
         <Route path="/product/:id" element={<ProductDetailPage />} />
 
         {/* ===== Cart & Checkout ===== */}
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/payment" element={<PaymentPage />} /> {/* ✅ Payment Page Route */}
+        <Route path="/payment" element={<PaymentPage />} />
         <Route path="/order-success" element={<OrderSuccessPage />} />
 
         {/* ===== Orders ===== */}

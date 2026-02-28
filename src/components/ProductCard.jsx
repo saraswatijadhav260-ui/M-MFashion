@@ -1,63 +1,33 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { Heart, Heart as HeartOutline } from "lucide-react"; // Heart icons
 
-const ProductCard = () => {
-
-  const [liked, setLiked] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
-
-  const handleLike = () => {
-    setLiked(!liked);
-
-    if (!liked) {
-      setShowMessage(true);
-
-      setTimeout(() => {
-        setShowMessage(false);
-      }, 2000);
-    }
-  };
-
+const ProductCard = ({ product, isLiked, onLike }) => {
   return (
-    <>
-      <div className="border rounded-lg p-4 hover:shadow-lg relative">
+    <div className="border rounded-lg p-4 relative hover:shadow-lg transition bg-white">
+      
+      {/* Product Image */}
+      <img
+        src={product.image}
+        alt={product.name}
+        className="w-full h-56 object-cover rounded"
+      />
 
-        {/* ❤️ Heart Button */}
-        <button
-          onClick={handleLike}
-          className="absolute top-3 right-3 bg-white p-2 rounded-full shadow"
-        >
-          {liked ? (
-            <FaHeart className="text-red-500 text-lg" />
-          ) : (
-            <FaRegHeart className="text-gray-400 text-lg" />
-          )}
-        </button>
+      {/* Like Button */}
+      <button
+        onClick={onLike}
+        className="absolute top-2 right-2 p-2 rounded-full hover:bg-gray-100 transition"
+      >
+        {isLiked ? (
+          <Heart className="w-6 h-6 text-red-500" /> // filled red heart
+        ) : (
+          <HeartOutline className="w-6 h-6 text-gray-400" /> // outline gray heart
+        )}
+      </button>
 
-        {/* Product Image */}
-        <div className="h-40 bg-gray-200 mb-3 flex items-center justify-center">
-          Image
-        </div>
+      {/* Product Info */}
+      <h3 className="mt-3 font-semibold text-lg">{product.name}</h3>
+      <p className="text-gray-500 mt-1">₹{product.price}</p>
 
-        <h3 className="font-semibold">Garba Dress</h3>
-        <p className="text-pink-600 font-bold">₹2,999</p>
-
-        <Link
-          to="/product/1"
-          className="block text-center mt-3 bg-pink-600 text-white py-2 rounded"
-        >
-          View
-        </Link>
-      </div>
-
-      {/* Wishlist Popup Message */}
-      {showMessage && (
-        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded shadow-lg">
-          Product saved in your Wishlist ❤️
-        </div>
-      )}
-    </>
+    </div>
   );
 };
 
