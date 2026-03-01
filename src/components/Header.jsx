@@ -1,10 +1,42 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import { WishlistContext } from "../context/WishlistContext";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const { wishlist } = useContext(WishlistContext);
+  const navigate = useNavigate();
+
+  /* ===== Sample Products for Suggestions ===== */
+  const products = [
+    "Lehenga for Women",
+    "Lehenga for Girls",
+    "Lehenga Dupatta",
+    "Lehenga Choli",
+    "Red Garba Dress",
+    "Blue Ethnic Kurti",
+    "Green Lehenga",
+  ];
+
+  /* ===== Filter Suggestions ===== */
+  const filteredSuggestions = products.filter((item) =>
+    item.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  /* ===== Search Submit ===== */
+  const handleSearch = () => {
+    if (searchTerm.trim() !== "") {
+      navigate(`/search?query=${searchTerm}`);
+      setSearchTerm("");
+    }
+  };
+
+  /* ===== When Click Suggestion ===== */
+  const handleSelect = (value) => {
+    navigate(`/search?query=${value}`);
+    setSearchTerm("");
+  };
 
   const navLinkStyle =
     "block py-2 px-3 rounded hover:bg-pink-100 transition";
@@ -41,7 +73,6 @@ const Header = () => {
             `${navLinkStyle} ${isActive ? activeStyle : ""}`
           }>Cart</NavLink>
 
-          {/* ❤️ Wishlist with Count */}
           <NavLink
             to="/wishlist"
             className={({ isActive }) =>
@@ -87,26 +118,43 @@ const Header = () => {
         </button>
       </div>
 
-      {/* ===== SEARCH BAR ===== */}
-      <div className="w-full flex justify-center py-4 bg-gray-50 border-t">
-        <input
-          type="text"
-          placeholder="Search by product, fabric, occasion..."
-          className="w-[90%] md:w-2/3 px-5 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 transition"
-        />
+      {/* ===== SEARCH BAR WITH DROPDOWN ===== */}
+      <div className="w-full flex justify-center py-4 bg-gray-50 border-t relative">
+        <div className="w-[90%] md:w-2/3 relative">
+          <input
+            type="text"
+            placeholder="Search by product, fabric, occasion..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            className="w-full px-5 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 transition"
+          />
+
+          {searchTerm && filteredSuggestions.length > 0 && (
+            <div className="absolute w-full bg-white border mt-2 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+              {filteredSuggestions.map((item, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleSelect(item)}
+                  className="px-4 py-2 hover:bg-pink-100 cursor-pointer transition"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ===== CATEGORY BAR ===== */}
       <div className="w-full bg-white border-t">
         <div className="max-w-7xl mx-auto px-6 py-3 flex justify-center gap-8 overflow-x-auto">
-
           <Link to="/men" className={categoryStyle}>Men</Link>
           <Link to="/women" className={categoryStyle}>Women</Link>
           <Link to="/kids" className={categoryStyle}>Kids</Link>
           <Link to="/ethnic" className={categoryStyle}>Ethnic</Link>
           <Link to="/western" className={categoryStyle}>Western</Link>
           <Link to="/party-wear" className={categoryStyle}>Party Wear</Link>
-
         </div>
       </div>
 
@@ -118,7 +166,6 @@ const Header = () => {
           <NavLink to="/products" onClick={() => setIsOpen(false)} className={navLinkStyle}>Products</NavLink>
           <NavLink to="/cart" onClick={() => setIsOpen(false)} className={navLinkStyle}>Cart</NavLink>
 
-          {/* ❤️ Mobile Wishlist with Count */}
           <NavLink
             to="/wishlist"
             onClick={() => setIsOpen(false)}
@@ -133,7 +180,6 @@ const Header = () => {
           </NavLink>
 
           <NavLink to="/my-orders" onClick={() => setIsOpen(false)} className={navLinkStyle}>My Orders</NavLink>
-          <NavLink to="/track-order" onClick={() => setIsOpen(false)} className={navLinkStyle}>Track Order</NavLink>
           <NavLink to="/upload-photos" onClick={() => setIsOpen(false)} className={navLinkStyle}>Upload Photos</NavLink>
           <NavLink to="/about-us" onClick={() => setIsOpen(false)} className={navLinkStyle}>About</NavLink>
           <NavLink to="/contact-us" onClick={() => setIsOpen(false)} className={navLinkStyle}>Contact</NavLink>
@@ -141,6 +187,7 @@ const Header = () => {
 
         </div>
       )}
+
     </header>
   );
 };

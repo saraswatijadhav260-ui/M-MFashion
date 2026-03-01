@@ -4,7 +4,6 @@ import Filters from "../components/Filters";
 import products from "../data/products";
 
 const MenPage = () => {
-
   const [filters, setFilters] = useState({
     size: "",
     color: "",
@@ -18,22 +17,22 @@ const MenPage = () => {
     }));
   };
 
-  // Step 1: Get only men products
+  // Only men products
   const menProducts = products.filter(
     (product) => product.category === "men"
   );
 
-  // 🔥 Generate available sizes dynamically
+  // Dynamic sizes
   const availableSizes = [
     ...new Set(menProducts.flatMap((p) => p.size || []))
   ];
 
-  // 🔥 Generate available colors dynamically
+  // Dynamic colors
   const availableColors = [
     ...new Set(menProducts.flatMap((p) => p.color || []))
   ];
 
-  // Step 2: Apply filters
+  // Apply filters
   let filteredProducts = [...menProducts];
 
   if (filters.size) {
@@ -56,7 +55,6 @@ const MenPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-4 gap-8">
-
       <Filters
         onFilterChange={handleFilterChange}
         sizes={availableSizes}
@@ -72,7 +70,6 @@ const MenPage = () => {
           ))
         )}
       </div>
-
     </div>
   );
 };

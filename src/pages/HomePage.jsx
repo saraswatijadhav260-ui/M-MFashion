@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Search, ShoppingCart, User, Heart, Menu, X } from "lucide-react";
+import { ShoppingCart, User, Heart, Menu } from "lucide-react";
+import { WishlistContext } from "../context/WishlistContext";
 
-/* ================= SAMPLE DATA ================= */
 const categories = [
   { name: "Men", path: "/men" },
   { name: "Women", path: "/women" },
-  { name: "Kids", path: "/kids" },
+  { name: "Kids", path: "/" },
   { name: "Ethnic", path: "/ethnic" },
   { name: "Western", path: "/western" },
   { name: "Party Wear", path: "/party-wear" },
@@ -21,33 +21,41 @@ const featuredProducts = [
 
 const HomePage = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const [showOffer, setShowOffer] = useState(true);
+  const [message, setMessage] = useState("");
+  const { wishlist, addToWishlist, removeFromWishlist } =
+    useContext(WishlistContext);
+
+  const toggleWishlist = (product, e) => {
+    e.preventDefault();
+
+    const exists = wishlist.find((item) => item.id === product.id);
+
+    if (!exists) {
+      addToWishlist(product);
+      setMessage("Product added to wishlist ❤️");
+
+      setTimeout(() => {
+        setMessage("");
+      }, 2000);
+    } else {
+      removeFromWishlist(product.id);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-pink-100">
 
-      {/* ================= HEADER ================= */}
+      {/* HEADER */}
       <header className="sticky top-0 z-40 bg-white shadow">
         <div className="flex items-center justify-between px-6 py-4">
           <Link to="/">
             <h1 className="text-2xl font-bold text-pink-600">M&M Fashion</h1>
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-6">
-            {categories.map((cat) => (
-              <Link
-                key={cat.name}
-                to={cat.path}
-                className="cursor-pointer hover:text-pink-600 transition-colors"
-              >
-                {cat.name}
-              </Link>
-            ))}
-          </div>
-
           <div className="flex items-center gap-4">
-            <Heart className="cursor-pointer hover:text-pink-600" />
+            <Link to="/wishlist">
+              <Heart className="cursor-pointer hover:text-pink-600" />
+            </Link>
             <User className="cursor-pointer hover:text-pink-600" />
             <ShoppingCart className="cursor-pointer hover:text-pink-600" />
             <Menu
@@ -56,91 +64,58 @@ const HomePage = () => {
             />
           </div>
         </div>
-
-        {/* Mobile Menu */}
-        {showMenu && (
-          <div className="md:hidden px-6 pb-4 space-y-2">
-            {categories.map((cat) => (
-              <Link
-                key={cat.name}
-                to={cat.path}
-                className="block border-b py-2 hover:text-pink-600 transition-colors"
-                onClick={() => setShowMenu(false)}
-              >
-                {cat.name}
-              </Link>
-            ))}
-          </div>
-        )}
       </header>
 
-      {/* ================= HERO ================= */}
-      <section className="bg-pink-500 text-white text-center py-20">
-        <h2 className="text-4xl md:text-6xl font-bold mb-4">
-          Festival Fashion Sale
-        </h2>
-        <p className="text-xl mb-6">
-          Up to 60% OFF on Ethnic & Western Wear
-        </p>
-        <Link
-          to="/women"
-          className="bg-white text-pink-600 px-8 py-3 rounded-full font-semibold"
-        >
-          Shop Now
-        </Link>
-      </section>
-
-      {/* ================= SEARCH ================= */}
-      <div className="max-w-3xl mx-auto mt-10 px-4">
-        <div className="flex items-center border rounded-full px-4 py-3 shadow-lg">
-          <Search className="text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search by product..."
-            className="ml-3 w-full outline-none bg-transparent"
-          />
+      {/* SIMPLE MESSAGE */}
+      {message && (
+        <div className="text-center mt-6 text-green-600 font-semibold">
+          {message}
         </div>
-      </div>
+      )}
 
-      {/* ================= FEATURED PRODUCTS ================= */}
+      {/* PRODUCTS */}
       <section className="max-w-7xl mx-auto px-6 py-12">
         <h3 className="text-3xl font-bold text-center mb-10">
           Featured Products
         </h3>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {featuredProducts.map((product) => (
-            <div
-              key={product.id}
-              className="border rounded-lg overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1"
-            >
-              <img
-                src={product.image}
-                alt={product.name}
-                className="h-64 w-full object-cover"
-              />
+          {featuredProducts.map((product) => {
+            const isLiked = wishlist.some((item) => item.id === product.id);
 
-              <div className="p-4">
-                <h4 className="font-semibold mb-1">{product.name}</h4>
-                <p className="text-pink-600 font-bold mb-3">
-                  ₹{product.price}
-                </p>
+            return (
+              <Link
+                to={`/product/${product.id}`}
+                key={product.id}
+                className="relative border rounded-lg overflow-hidden hover:shadow-xl transition block"
+              >
+                <button
+                  onClick={(e) => toggleWishlist(product, e)}
+                  className="absolute top-3 right-3 bg-white p-2 rounded-full shadow"
+                >
+                  <Heart
+                    size={18}
+                    className={`${
+                      isLiked ? "text-red-500 fill-red-500" : "text-gray-400"
+                    }`}
+                  />
+                </button>
 
-                <div className="flex justify-between items-center">
-                  <button className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">
-                    Add to Cart
-                  </button>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="h-64 w-full object-cover"
+                />
 
-                  <Link
-                    to={`/product/${product.id}`}
-                    className="text-blue-600 font-semibold hover:underline"
-                  >
-                    View
-                  </Link>
+                <div className="p-4">
+                  <h4 className="font-semibold mb-1">{product.name}</h4>
+                  <p className="text-pink-600 font-bold">
+                    ₹{product.price}
+                  </p>
                 </div>
-              </div>
-            </div>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </section>
     </div>

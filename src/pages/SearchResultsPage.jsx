@@ -1,9 +1,16 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import Filters from "../components/Filters";
 
 const SearchResultsPage = () => {
-  const [products, setProducts] = useState([
+
+  /* ===== Get Search Query from URL ===== */
+  const location = useLocation();
+  const query = new URLSearchParams(location.search).get("query") || "";
+
+  /* ===== Product Data ===== */
+  const [products] = useState([
     {
       id: 1,
       name: "Red Garba Dress",
@@ -30,20 +37,30 @@ const SearchResultsPage = () => {
     },
   ]);
 
+  /* ===== Filter Products Based on Search Query ===== */
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(query.toLowerCase())
+  );
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
-      <h1 className="text-3xl font-bold mb-6">Search Results</h1>
+      
+      {/* ===== Title ===== */}
+      <h1 className="text-3xl font-bold mb-6">
+        Search Results {query && `for "${query}"`}
+      </h1>
 
       <div className="flex flex-col md:flex-row gap-6">
-        {/* Filters Sidebar */}
+        
+        {/* ===== Filters Sidebar ===== */}
         <div className="md:w-1/4">
           <Filters />
         </div>
 
-        {/* Product Grid */}
+        {/* ===== Product Grid ===== */}
         <div className="md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.length > 0 ? (
-            products.map((product) => (
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))
           ) : (
@@ -52,6 +69,7 @@ const SearchResultsPage = () => {
             </p>
           )}
         </div>
+
       </div>
     </div>
   );
