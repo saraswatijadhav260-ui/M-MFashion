@@ -1,112 +1,180 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Filters from "../components/Filters";
-import ProductCard from "../components/ProductCard";
-import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 
-const ProductListPage = () => {
-  const navigate = useNavigate();
+const Filters = ({ onFilter }) => {
 
-  // Generate many products
-  const allProducts = Array.from({ length: 200 }, (_, i) => ({
-    id: i + 1,
-    name: `Garba Dress ${i + 1}`,
-    price: 899 + i * 20,
-    image: `https://via.placeholder.com/300?text=Garba+${i + 1}`
-  }));
+const [filters,setFilters]=useState({
+size:"",
+color:"",
+fabric:"",
+occasion:"",
+pattern:"",
+gender:"",
+category:"",
+price:[0,5000]
+});
 
-  // Show first products
-  const [visibleCount, setVisibleCount] = useState(9);
+const sizes=["S","M","L","XL"];
+const colors=["Red","Blue","Green"];
+const fabrics=["Cotton","Silk"];
+const occasions=["Festive","Casual"];
+const patterns=["Printed","Embroidered"];
+const genders=["Women","Men"];
+const categories=["Garba Dress"];
 
-  const [likedProducts, setLikedProducts] = useState(() => {
-    return JSON.parse(localStorage.getItem("wishlist")) || [];
-  });
+const handleChange=(name,value)=>{
 
-  const [message, setMessage] = useState("");
+const updated={...filters,[name]:value};
 
-  // Infinite Scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 200
-      ) {
-        setVisibleCount((prev) => prev + 6);
-      }
-    };
+setFilters(updated);
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+onFilter(updated);
 
-  // Toggle wishlist
-  const toggleLike = (product) => {
-    let updated;
-
-    if (likedProducts.find((p) => p.id === product.id)) {
-      updated = likedProducts.filter((p) => p.id !== product.id);
-      setLikedProducts(updated);
-      localStorage.setItem("wishlist", JSON.stringify(updated));
-      setMessage("❌ Product removed from wishlist");
-    } else {
-      updated = [...likedProducts, product];
-      setLikedProducts(updated);
-      localStorage.setItem("wishlist", JSON.stringify(updated));
-      setMessage("✅ Product added to wishlist");
-    }
-
-    setTimeout(() => setMessage(""), 2000);
-  };
-
-  return (
-    <div className="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-4 gap-8 relative">
-
-      {/* Filters */}
-      <Filters />
-
-      {/* Product Grid */}
-      <div className="md:col-span-3">
-
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-
-          {allProducts.slice(0, visibleCount).map((product) => (
-            <div
-              key={product.id}
-              className="cursor-pointer"
-              onClick={() => navigate(`/product/${product.id}`)}
-            >
-              <ProductCard
-                product={product}
-                isLiked={likedProducts.some((p) => p.id === product.id)}
-                onLike={(e) => {
-                  e.stopPropagation();
-                  toggleLike(product);
-                }}
-              />
-            </div>
-          ))}
-
-        </div>
-
-        {/* Down Arrow Indicator */}
-        {visibleCount < allProducts.length && (
-          <div className="flex flex-col items-center mt-10 text-gray-500">
-            <ChevronDown size={40} className="animate-bounce" />
-            <p className="text-sm">Loading more products...</p>
-          </div>
-        )}
-
-      </div>
-
-      {/* Wishlist Toast Message */}
-      {message && (
-        <div className="absolute top-4 right-6 bg-gray-800 text-white px-4 py-2 rounded shadow-lg">
-          {message}
-        </div>
-      )}
-
-    </div>
-  );
 };
 
-export default ProductListPage;
+return(
+
+<div className="border p-4 rounded shadow-sm space-y-4">
+
+<h2 className="font-semibold text-lg">Filters</h2>
+
+{/* SIZE */}
+
+<div>
+
+<h3 className="font-medium mb-2">Size</h3>
+
+<div className="flex flex-wrap gap-2">
+
+{sizes.map(size=>(
+
+<button
+key={size}
+onClick={()=>handleChange("size",size)}
+className={`px-3 py-1 border rounded ${
+filters.size===size?"bg-black text-white":""
+}`}
+>
+
+{size}
+
+</button>
+
+))}
+
+</div>
+
+</div>
+
+{/* COLOR */}
+
+<div>
+
+<h3 className="font-medium mb-2">Color</h3>
+
+<div className="flex flex-wrap gap-2">
+
+{colors.map(color=>(
+
+<button
+key={color}
+onClick={()=>handleChange("color",color)}
+className={`px-3 py-1 border rounded ${
+filters.color===color?"bg-black text-white":""
+}`}
+>
+
+{color}
+
+</button>
+
+))}
+
+</div>
+
+</div>
+
+{/* FABRIC */}
+
+<div>
+
+<h3 className="font-medium mb-2">Fabric</h3>
+
+<select
+className="border p-2 w-full"
+onChange={(e)=>handleChange("fabric",e.target.value)}
+>
+
+<option value="">All</option>
+
+{fabrics.map(f=>(
+<option key={f}>{f}</option>
+))}
+
+</select>
+
+</div>
+
+{/* OCCASION */}
+
+<div>
+
+<h3 className="font-medium mb-2">Occasion</h3>
+
+<select
+className="border p-2 w-full"
+onChange={(e)=>handleChange("occasion",e.target.value)}
+>
+
+<option value="">All</option>
+
+{occasions.map(o=>(
+<option key={o}>{o}</option>
+))}
+
+</select>
+
+</div>
+
+{/* PATTERN */}
+
+<div>
+
+<h3 className="font-medium mb-2">Pattern</h3>
+
+<select
+className="border p-2 w-full"
+onChange={(e)=>handleChange("pattern",e.target.value)}
+>
+
+<option value="">All</option>
+
+{patterns.map(p=>(
+<option key={p}>{p}</option>
+))}
+
+</select>
+
+</div>
+
+{/* PRICE */}
+
+<div>
+
+<h3 className="font-medium mb-2">Price Range</h3>
+
+<input
+type="range"
+min="0"
+max="5000"
+onChange={(e)=>handleChange("price",[0,e.target.value])}
+/>
+
+</div>
+
+</div>
+
+);
+
+};
+
+export default Filters;
