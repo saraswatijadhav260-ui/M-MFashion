@@ -1,12 +1,16 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import { WishlistContext } from "../context/WishlistContext";
+import { CartContext } from "../context/CartContext";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const { wishlist } = useContext(WishlistContext);
+  const { cartItems } = useContext(CartContext);
   const navigate = useNavigate();
+
+  const cartItemCount = cartItems.reduce((total, item) => total + (item.cartQuantity || 1), 0);
 
   /* ===== Sample Products for Suggestions ===== */
   const products = [
@@ -69,9 +73,19 @@ const Header = () => {
             `${navLinkStyle} ${isActive ? activeStyle : ""}`
           }>Products</NavLink>
 
-          <NavLink to="/cart" className={({ isActive }) =>
-            `${navLinkStyle} ${isActive ? activeStyle : ""}`
-          }>Cart</NavLink>
+          <NavLink
+            to="/cart"
+            className={({ isActive }) =>
+              `${navLinkStyle} ${isActive ? activeStyle : ""} relative`
+            }
+          >
+            Cart
+            {cartItemCount > 0 && (
+              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                {cartItemCount}
+              </span>
+            )}
+          </NavLink>
 
           <NavLink
             to="/wishlist"
@@ -164,7 +178,19 @@ const Header = () => {
 
           <NavLink to="/" onClick={() => setIsOpen(false)} className={navLinkStyle}>Home</NavLink>
           <NavLink to="/products" onClick={() => setIsOpen(false)} className={navLinkStyle}>Products</NavLink>
-          <NavLink to="/cart" onClick={() => setIsOpen(false)} className={navLinkStyle}>Cart</NavLink>
+          
+          <NavLink
+            to="/cart"
+            onClick={() => setIsOpen(false)}
+            className="relative block py-2 px-3 rounded hover:bg-pink-100 transition"
+          >
+            Cart
+            {cartItemCount > 0 && (
+              <span className="ml-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                {cartItemCount}
+              </span>
+            )}
+          </NavLink>
 
           <NavLink
             to="/wishlist"

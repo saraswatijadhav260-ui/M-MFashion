@@ -1,46 +1,33 @@
-import { useEffect, useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "../context/CartContext";
 
 const CartPage = () => {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState([]);
+  const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
   const [coupon, setCoupon] = useState("");
   const [discountAmount, setDiscountAmount] = useState(0);
 
-  useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(storedCart);
-  }, []);
-
   // Remove Item
-  const removeItem = (index) => {
-    const updatedCart = [...cartItems];
-    updatedCart.splice(index, 1);
-    setCartItems(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  const removeItem = (item) => {
+    removeFromCart(item.id, item.activeVariant?.id);
   };
 
   // Quantity Increase
-  const increaseQty = (index) => {
-    const updatedCart = [...cartItems];
-    updatedCart[index].quantity += 1;
-    setCartItems(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  const increaseQty = (item) => {
+    updateQuantity(item.id, item.activeVariant?.id, (item.cartQuantity || 1) + 1);
   };
 
   // Quantity Decrease
-  const decreaseQty = (index) => {
-    const updatedCart = [...cartItems];
-    if (updatedCart[index].quantity > 1) {
-      updatedCart[index].quantity -= 1;
-      setCartItems(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
+  const decreaseQty = (item) => {
+    if ((item.cartQuantity || 1) > 1) {
+      updateQuantity(item.id, item.activeVariant?.id, (item.cartQuantity || 1) - 1);
     }
   };
 
   // Price Calculations
   const totalMRP = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + (item.price || 0) * (item.cartQuantity || 1),
     0
   );
 
@@ -75,7 +62,7 @@ const CartPage = () => {
 
                   {/* Image */}
                   <img
-                    src={item.image}
+                    src={item.image || (item.images && item.images[0]) || "https://via.placeholder.com/150"}
                     alt={item.name}
                     className="w-32 h-32 object-cover rounded"
                   />
@@ -88,25 +75,25 @@ const CartPage = () => {
                     <p className="text-sm text-gray-500">
                       Product ID: {item.id}
                     </p>
-                    <p>Color: {item.color}</p>
-                    <p>Size: {item.size}</p>
+                    <p>Color: {item.activeVariant?.color || item.color}</p>
+                    <p>Size: {item.activeVariant?.size || item.size}</p>
 
                     {/* Stock Warning */}
                     <p className="text-red-500 text-sm mt-1">
-                      Only 2 left in stock!
+                      {item.activeVariant && item.activeVariant.quantity < 5 ? `Only ${item.activeVariant.quantity} left in stock!` : ""}
                     </p>
 
                     {/* Quantity Selector */}
                     <div className="flex items-center gap-3 mt-3">
                       <button
-                        onClick={() => decreaseQty(index)}
+                        onClick={() => decreaseQty(item)}
                         className="border px-3 py-1"
                       >
                         −
                       </button>
-                      <span>{item.quantity}</span>
+                      <span>{item.cartQuantity || 1}</span>
                       <button
-                        onClick={() => increaseQty(index)}
+                        onClick={() => increaseQty(item)}
                         className="border px-3 py-1"
                       >
                         +
@@ -114,13 +101,13 @@ const CartPage = () => {
                     </div>
 
                     <p className="font-bold mt-3">
-                      ₹{item.price} × {item.quantity}
+                      ₹{item.price} × {item.cartQuantity || 1}
                     </p>
 
                     {/* Actions */}
                     <div className="flex gap-4 mt-3 text-sm">
                       <button
-                        onClick={() => removeItem(index)}
+                        onClick={() => removeItem(item)}
                         className="text-red-600"
                       >
                         ❌ Remove
